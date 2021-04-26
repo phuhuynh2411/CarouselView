@@ -8,10 +8,10 @@
 import SwiftUI
 import RemoteImageView
 
-struct CarouselItemlView: View {
+public struct CarouselItemlView: View {
     @State var item: Carousel
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             RemoteImageView(stringURL: item.stringURL)
                 .frame(width: geo.size.width, height: 190)

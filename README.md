@@ -1,3 +1,3 @@
 # CarouselView
 
-A description of this package.
+A Carousel view for SwiftUI
