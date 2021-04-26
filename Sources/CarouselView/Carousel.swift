@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Carousel: Identifiable, Decodable {
-    let id: Int
-    let stringURL: String
+public struct Carousel: Identifiable, Decodable {
+    public let id: Int
+    public let stringURL: String
     
-    init(id: Int, stringURL: String) {
+    public init(id: Int, stringURL: String) {
         self.id = id
         self.stringURL = stringURL
     }

@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import OSLog
 
-struct CarouselView: View {
+public struct CarouselView: View {
     @State var  items: [Carousel]
     
     /// auto change slide if is it true
@@ -32,7 +31,23 @@ struct CarouselView: View {
     @State private var draggingTime = Date()
     private let screenWidth = UIScreen.main.bounds.width
     
-    var body: some View {
+    public init(items: [Carousel],
+                isAutoChangeSlide: Bool = true,
+                second: Int = 3,
+                slideIndicator: Bool = true,
+                height: CGFloat = 190,
+                hStackSpacing: CGFloat = 9.0 ) {
+        
+        self._items = State(wrappedValue: items)
+        self.isAutoChangeSlide = isAutoChangeSlide
+        self.second = second
+        self.slideIndicator = slideIndicator
+        self.height = height
+        self.hStackSpacing = hStackSpacing
+        
+    }
+    
+    public var body: some View {
         VStack { // Use this view to move the slider to top
             
             ZStack (alignment: .bottom) {
@@ -125,7 +140,7 @@ struct CarouselView: View {
             }
     }
     
-    private func changeSide(newIndex: Int, withAni: Bool = true, cycleSlide: Bool = true) {
+    func changeSide(newIndex: Int, withAni: Bool = true, cycleSlide: Bool = true) {
         if withAni {
             withAnimation {
                 setIndex(newIndex)
@@ -150,7 +165,7 @@ struct CarouselView: View {
         self.lastOffset = self.offset
     }
     
-    private func setIndex(_ newIndex: Int) {
+    func setIndex(_ newIndex: Int) {
         self.index = newIndex
         self.offset = CGPoint(x: -CGFloat(newIndex) * UIScreen.main.bounds.size.width - (hStackSpacing * CGFloat(newIndex)), y: self.offset.y)
         
