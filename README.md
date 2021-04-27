@@ -3,7 +3,7 @@
 A Carousel view for SwiftUI
 
 # Demo
-![Carousel demo](carousel.gif)
+![Carousel demo](carousel-1.gif)
 
 # Major features
 - On/Off auto change slide
