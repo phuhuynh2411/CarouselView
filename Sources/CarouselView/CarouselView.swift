@@ -105,7 +105,7 @@ public struct CarouselView: View {
             .frame(height: self.height)
             
             // Move the things above to top
-            Spacer()
+            //Spacer()
         }
     }
     
