@@ -45,6 +45,15 @@ public struct CarouselView: View {
         self.height = height
         self.hStackSpacing = hStackSpacing
         
+        // Add the last item before the last item
+        // Add the first item after last item
+        if let lastItem = items.last, let firstItem = items.first  {
+            self.items.insert(lastItem, at: 0)
+            self.items.append(firstItem)
+        }
+        
+        // Move to the first item
+        changeSide(newIndex: 1, withAni: false)
     }
     
     public var body: some View {
@@ -61,16 +70,6 @@ public struct CarouselView: View {
                         }
                     }
                     .onAppear {
-                        // Add the last item before the last item
-                        // Add the first item after last item
-                        if let lastItem = items.last, let firstItem = items.first  {
-                            self.items.insert(lastItem, at: 0)
-                            self.items.append(firstItem)
-                        }
-                        
-                        // Move to the first item
-                        changeSide(newIndex: 1, withAni: false)
-                        
                         // enable auto change slide
                         guard isAutoChangeSlide else {
                             return
@@ -85,7 +84,6 @@ public struct CarouselView: View {
                         }
                     }
                     .offset(x: offset.x, y: offset.y)
-                    
                     // Add drag events to the scrollview
                     .gesture(drag)
                 }
