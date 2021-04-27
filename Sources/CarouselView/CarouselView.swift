@@ -27,7 +27,7 @@ public struct CarouselView: View {
     
     @State private var offset: CGPoint = .zero
     @State private var lastOffset: CGPoint = .zero
-    @State private var index: Int = 0
+    @State private var index: Int = 1
     @State private var draggingTime = Date()
     private let screenWidth = UIScreen.main.bounds.width
     
@@ -38,22 +38,20 @@ public struct CarouselView: View {
                 height: CGFloat = 190,
                 hStackSpacing: CGFloat = 9.0 ) {
         
-        self._items = State(wrappedValue: items)
+        var tempItems: [Carousel] = items
+        // Add the last item before the last item
+        // Add the first item after last item
+        if let lastItem = items.last, let firstItem = items.first  {
+            tempItems.insert(lastItem, at: 0)
+            tempItems.append(firstItem)
+        }
+        
+        self._items = State(wrappedValue: tempItems)
         self.isAutoChangeSlide = isAutoChangeSlide
         self.second = second
         self.slideIndicator = slideIndicator
         self.height = height
         self.hStackSpacing = hStackSpacing
-        
-        // Add the last item before the last item
-        // Add the first item after last item
-        if let lastItem = items.last, let firstItem = items.first  {
-            self.items.insert(lastItem, at: 0)
-            self.items.append(firstItem)
-        }
-        
-        // Move to the first item
-        changeSide(newIndex: 1, withAni: false)
     }
     
     public var body: some View {
@@ -70,6 +68,9 @@ public struct CarouselView: View {
                         }
                     }
                     .onAppear {
+                        // Move to the first item
+                        changeSide(newIndex: 1, withAni: false)
+                        
                         // enable auto change slide
                         guard isAutoChangeSlide else {
                             return
@@ -158,7 +159,6 @@ public struct CarouselView: View {
             self.offset = CGPoint(x: -CGFloat(self.index) * UIScreen.main.bounds.size.width - (hStackSpacing * CGFloat(self.index)), y: self.offset.y)
         }
     
-        
         // Save the last offset for the next times
         self.lastOffset = self.offset
     }
