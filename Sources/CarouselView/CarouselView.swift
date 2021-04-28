@@ -27,7 +27,7 @@ public struct CarouselView: View {
     
     @State private var offset: CGPoint = .zero
     @State private var lastOffset: CGPoint = .zero
-    @State private var index: Int = 1
+    @State private var index: Int = 0
     @State private var draggingTime = Date()
     private let screenWidth = UIScreen.main.bounds.width
     
@@ -69,7 +69,8 @@ public struct CarouselView: View {
                     }
                     .onAppear {
                         // Move to the first item
-                        changeSide(newIndex: 1, withAni: false)
+                        // only move to the first slide when the view first loaded
+                        if index == 0 { changeSide(newIndex: 1, withAni: false) }
                         
                         // enable auto change slide
                         guard isAutoChangeSlide else {
