@@ -10,12 +10,19 @@ import RemoteImageView
 
 public struct CarouselItemlView: View {
     @State var item: Carousel
+    var height: CGFloat
+    var borderRadius: CGFloat
     
     public var body: some View {
         GeometryReader { geo in
-            RemoteImageView(stringURL: item.stringURL)
-                .frame(width: geo.size.width, height: 190)
-                .background(Color.secondary)
+            HStack (alignment: .center){
+                
+                RemoteImageView(stringURL: item.stringURL)
+                    .frame(width: geo.size.width, height: self.height)
+                    .background(Color.secondary)
+                    .cornerRadius(borderRadius)
+                
+            }
         }
     }
 }

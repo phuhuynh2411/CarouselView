@@ -23,20 +23,32 @@ public struct CarouselView: View {
     var height: CGFloat = 190
     
     // A space between each slide
-    var hStackSpacing:CGFloat = 9.0
+    var hStackSpacing:CGFloat = 5.0
+    
+    // Display the carousel in full-width mode
+    var isFullWidth: Bool = true
+    
+    // The leading and trailing padding of the image
+    var leadingTrailingPadding: CGFloat
+    
+    // Border radius
+    var borderRadius: CGFloat
     
     @State private var offset: CGPoint = .zero
     @State private var lastOffset: CGPoint = .zero
     @State private var index: Int = 0
     @State private var draggingTime = Date()
-    private let screenWidth = UIScreen.main.bounds.width
+    private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
     public init(items: [Carousel],
                 isAutoChangeSlide: Bool = true,
                 second: Int = 3,
                 slideIndicator: Bool = true,
                 height: CGFloat = 190,
-                hStackSpacing: CGFloat = 9.0 ) {
+                hStackSpacing: CGFloat = 9.0,
+                isFullWidth: Bool = true,
+                leadingTrailingPadding: CGFloat = 32,
+                borderRadius: CGFloat = 7.0) {
         
         var tempItems: [Carousel] = items
         // Add the last item before the last item
@@ -52,6 +64,9 @@ public struct CarouselView: View {
         self.slideIndicator = slideIndicator
         self.height = height
         self.hStackSpacing = hStackSpacing
+        self.isFullWidth = isFullWidth
+        self.leadingTrailingPadding = leadingTrailingPadding
+        self.borderRadius = isFullWidth ? 0.0 : borderRadius
     }
     
     public var body: some View {
@@ -63,8 +78,8 @@ public struct CarouselView: View {
                     
                     HStack(spacing: hStackSpacing) {
                         ForEach(items) { item in
-                            CarouselItemlView(item: item)
-                                .frame(width: geo.size.width)
+                            CarouselItemlView(item: item, height: self.height, borderRadius: self.borderRadius)
+                                .frame(width: imageWidth())
                         }
                     }
                     .onAppear {
@@ -154,10 +169,10 @@ public struct CarouselView: View {
         guard cycleSlide else { return }
         if newIndex == items.count - 1 {
             self.index = 1
-            self.offset = CGPoint(x: -CGFloat(self.index) * UIScreen.main.bounds.size.width - (hStackSpacing * CGFloat(self.index)), y: self.offset.y)
+            self.offset = CGPoint(x: calX(index: self.index) - (hStackSpacing * CGFloat(self.index)), y: self.offset.y)
         } else if newIndex == 0 {
             self.index = items.count - 2
-            self.offset = CGPoint(x: -CGFloat(self.index) * UIScreen.main.bounds.size.width - (hStackSpacing * CGFloat(self.index)), y: self.offset.y)
+            self.offset = CGPoint(x: calX(index: self.index) - (hStackSpacing * CGFloat(self.index)), y: self.offset.y)
         }
     
         // Save the last offset for the next times
@@ -166,10 +181,23 @@ public struct CarouselView: View {
     
     func setIndex(_ newIndex: Int) {
         self.index = newIndex
-        self.offset = CGPoint(x: -CGFloat(newIndex) * UIScreen.main.bounds.size.width - (hStackSpacing * CGFloat(newIndex)), y: self.offset.y)
+        self.offset = CGPoint(x: calX(index: newIndex) - (hStackSpacing * CGFloat(newIndex)), y: self.offset.y)
         
         // Save the last offset for the next times
         self.lastOffset = self.offset
+    }
+    
+    func calX(index: Int) -> CGFloat {
+        if isFullWidth {
+            return -CGFloat(index) * screenWidth
+        } else {
+            let adjustmentX = leadingTrailingPadding / 2 // move the image to the right side a little bit
+            return -CGFloat(index) * (screenWidth - leadingTrailingPadding) + adjustmentX
+        }
+    }
+    
+    func imageWidth() -> CGFloat {
+        return isFullWidth ? screenWidth : screenWidth - leadingTrailingPadding
     }
     
 }
