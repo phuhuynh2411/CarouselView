@@ -143,9 +143,9 @@ public struct CarouselView: View {
                     
                     let delta = self.offset.x - self.lastOffset.x
                     
-                    if abs(self.offset.x) > abs(self.lastOffset.x) , abs(delta) > screenWidth/2 {
+                    if abs(self.offset.x) > abs(self.lastOffset.x) , abs(delta) > calX(index: index)/2 {
                         index += 1
-                    } else if abs(delta) - screenWidth > screenWidth/2  {
+                    } else if abs(delta) - screenWidth > calX(index: index)/2  {
                         index -= 1
                     } else {
                         fallback = true
