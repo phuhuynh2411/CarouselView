@@ -48,7 +48,7 @@ public struct CarouselView: View {
                 hStackSpacing: CGFloat = 9.0,
                 isFullWidth: Bool = true,
                 leadingTrailingPadding: CGFloat = 32,
-                borderRadius: CGFloat = 7.0) {
+                borderRadius: CGFloat = 10.0) {
         
         var tempItems: [Carousel] = items
         // Add the last item before the last item
