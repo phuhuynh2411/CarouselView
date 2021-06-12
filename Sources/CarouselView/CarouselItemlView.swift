@@ -18,7 +18,9 @@ public struct CarouselItemlView: View {
             HStack (alignment: .center){
                 
                 RemoteImageView(stringURL: item.stringURL)
+                    .scaledToFill()
                     .frame(width: geo.size.width, height: self.height)
+                    .clipped()
                     .background(Color.secondary)
                     .cornerRadius(borderRadius)
                 
