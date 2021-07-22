@@ -19,7 +19,7 @@ public struct CarouselItemlView: View {
                 
                 RemoteImageView(stringURL: item.stringURL)
                     .scaledToFill()
-                    .frame(width: geo.size.width, height: self.height)
+                    .frame(width: geo.size.width, height: self.height, alignment: .top)
                     .clipped()
                     .background(Color.secondary)
                     .cornerRadius(borderRadius)
