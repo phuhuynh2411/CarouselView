@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct CarouselView: View {
-    @State var  items: [Carousel]
+    @Binding var  items: [Carousel]
     
     /// auto change slide if is it true
     var isAutoChangeSlide: Bool = true
@@ -40,7 +40,7 @@ public struct CarouselView: View {
     @State private var draggingTime = Date()
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
-    public init(items: [Carousel],
+    public init(items: Binding<[Carousel]>,
                 isAutoChangeSlide: Bool = true,
                 second: Int = 3,
                 slideIndicator: Bool = true,
@@ -50,15 +50,7 @@ public struct CarouselView: View {
                 leadingTrailingPadding: CGFloat = 32,
                 borderRadius: CGFloat = 10.0) {
         
-        var tempItems: [Carousel] = items
-        // Add the last item before the last item
-        // Add the first item after last item
-        if let lastItem = items.last, let firstItem = items.first  {
-            tempItems.insert(lastItem, at: 0)
-            tempItems.append(firstItem)
-        }
-        
-        self._items = State(wrappedValue: tempItems)
+        self._items = items
         self.isAutoChangeSlide = isAutoChangeSlide
         self.second = second
         self.slideIndicator = slideIndicator
